@@ -1,4 +1,4 @@
-FROM sonarqube:8.5-community
+FROM sonarqube:8.9-community
 
 ARG PREINSTALL_PLUGINS_DIR=${SONARQUBE_HOME}/preinstall/plugins
 
@@ -11,11 +11,11 @@ ARG PLUGIN_DEPENCY_CHECK_VERSION=2.0.7
 ARG PLUGIN_DEPENCY_CHECK_URL=https://github.com/dependency-check/dependency-check-sonar-plugin/releases/download/${PLUGIN_DEPENCY_CHECK_VERSION}/sonar-dependency-check-plugin-${PLUGIN_DEPENCY_CHECK_VERSION}.jar
 
 # https://github.com/Inform-Software/sonar-groovy
-ARG PLUGIN_GROOVY_VERSION=1.6
+ARG PLUGIN_GROOVY_VERSION=1.7-rc1
 ARG PLUGIN_GROOVY_URL=https://github.com/Inform-Software/sonar-groovy/releases/download/${PLUGIN_GROOVY_VERSION}/sonar-groovy-plugin-${PLUGIN_GROOVY_VERSION}.jar
 
 # https://github.com/xuhuisheng/sonar-l10n-zh
-ARG PLUGIN_CHINESE_PACK_VERSION=8.5
+ARG PLUGIN_CHINESE_PACK_VERSION=8.9
 ARG PLUGIN_CHINESE_PACK_URL=https://github.com/xuhuisheng/sonar-l10n-zh/releases/download/sonar-l10n-zh-plugin-${PLUGIN_CHINESE_PACK_VERSION}/sonar-l10n-zh-plugin-${PLUGIN_CHINESE_PACK_VERSION}.jar
 
 # https://github.com/jensgerdes/sonar-pmd

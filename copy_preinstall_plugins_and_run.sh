@@ -80,10 +80,19 @@ function copyPlugins() {
 set -eux
 preinstall_plugins_dir=${SONARQUBE_HOME}/preinstall/plugins
 extensions_plugins_dir=${SQ_EXTENSIONS_DIR}/plugins
+community_branch_plugin_version='1.8.0'
 
 echo "copy preinstall plugins from $preinstall_plugins_dir to $extensions_plugins_dir"
 mkdir -p $extensions_plugins_dir
 copyPlugins $preinstall_plugins_dir $extensions_plugins_dir
+
+# Append sonarqube-community-branch-plugin required javaagent java option to SONAR_WEB_JAVAOPTS & SONAR_CE_JAVAOPTS Environment Variables
+web_javaopts_envvar="${SONAR_WEB_JAVAOPTS:}"
+ce_javaopts_envvar="${SONAR_CE_JAVAOPTS:}"
+web_javaopts_envvar+=" -javaagent:./extensions/plugins/sonarqube-community-branch-plugin-${community_branch_plugin_version}.jar=web"
+ce_javaopts_envvar+=" -javaagent:./extensions/plugins/sonarqube-community-branch-plugin-${community_branch_plugin_version}.jar=ce"
+export SONAR_WEB_JAVAOPTS=$web_javaopts_envvar
+export SONAR_CE_JAVAOPTS=$ce_javaopts_envvar
 
 # call run.sh
 exec bin/run.sh "$@"
