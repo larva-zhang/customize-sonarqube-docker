@@ -62,9 +62,7 @@ RUN set -eux \
   && aria2c -s 10 -x 10 -m 5 -d $PREINSTALL_PLUGINS_DIR ${PLUGIN_OPENID_URL} \
   && aria2c -s 10 -x 10 -m 5 -d $PREINSTALL_PLUGINS_DIR ${PLUGIN_YAML_ANALYZER_URL} \
   && aria2c -s 10 -x 10 -m 5 -d $PREINSTALL_PLUGINS_DIR ${PLUGIN_SHELL_CHECK_URL} \
-  # download sonarqube-community-branch-plugin to extensions/plugins/ and lib/common/ directoies
   && aria2c -s 10 -x 10 -m 5 -d $PREINSTALL_PLUGINS_DIR ${PLUGIN_COMMUNITY_BANCH_URL} \
-  && cp $PREINSTALL_PLUGINS_DIR/sonarqube-community-branch-plugin-${PLUGIN_COMMUNITY_BANCH_VERSION}.jar $SONARQUBE_HOME/lib/common/sonarqube-community-branch-plugin.jar \
   && aria2c -s 10 -x 10 -m 5 -d $PREINSTALL_PLUGINS_DIR ${PLUGIN_BUILD_BREAKER_URL}
 
 ENTRYPOINT ["bin/copy_preinstall_plugins_and_run.sh"]
