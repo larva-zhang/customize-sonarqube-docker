@@ -43,7 +43,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: zhanghan0031/customize-sonarqube:latest
+          tags: zhanghan0031/customize-sonarqube:8.9
 
       -
         name: Image digest
