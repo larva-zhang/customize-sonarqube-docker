@@ -59,5 +59,5 @@ RUN set -eux \
   && aria2c -s 10 -x 10 -m 5 -d $PREINSTALL_PLUGINS_DIR ${PLUGIN_SHELL_CHECK_URL} \
   && aria2c -s 10 -x 10 -m 5 -d $PREINSTALL_PLUGINS_DIR ${PLUGIN_COMMUNITY_BANCH_URL}
 
-ENTRYPOINT ["bin/copy_preinstall_plugins_and_run.sh"]
+ENTRYPOINT ["/bin/bash", "-c", "bin/copy_preinstall_plugins_and_run.sh"]
 CMD ["bin/sonar.sh"]
