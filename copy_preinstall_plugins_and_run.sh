@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+doPluginCover=false
 # isHigherVersion 2.0.0 1.9.5 will return 1.
 # isHigherVersion 2.0.0 1.9.6634.223 will return 1.
 # isHigherVersion 2 1.9.6634.223 will return 1.
@@ -16,20 +17,26 @@ function isHigherVersion() {
   if [ $firstVersionArrayLength -ge $secondVersionArrayLength ]; then
     for ((i = 0; i < $secondVersionArrayLength; i++)); do
       if [ ${firstVersionArray[i]} -gt ${secondVersionArray[i]} ]; then
-        return 1
+        doPluginCover=true
+        return 0
       elif [ ${firstVersionArray[i]} -lt ${secondVersionArray[i]} ]; then
+        doPluginCover=false
         return 0
       fi
     done
-    return 1
+    doPluginCover=false
+    return 0
   else
     for ((i = 0; i < $firstVersionArrayLength; i++)); do
       if [ ${firstVersionArray[i]} -gt ${secondVersionArray[i]} ]; then
-        return 1
+        doPluginCover=true
+        return 0
       elif [ ${firstVersionArray[i]} -lt ${secondVersionArray[i]} ]; then
+        doPluginCover=false
         return 0
       fi
     done
+    doPluginCover=false
     return 0
   fi
 }
@@ -47,7 +54,8 @@ function copyPlugins() {
         # sonar-auth-oidc-plugin-2.0.0.jar will return "2.0.0"
         preinstall_plugin_version="$(basename "$(echo $preinstall_plugin_jar | grep -Eo '[0-9]+(\.[0-9]+)*.jar')" .jar)"
         extensions_plugin_version="$(basename "$(echo $extensions_plugin_jar | grep -Eo '[0-9]+(\.[0-9]+)*.jar')" .jar)"
-        if [ "$(isHigherVersion $preinstall_plugin_version $extensions_plugin_version)" -eq 1 ]; then
+        isHigherVersion $preinstall_plugin_version $extensions_plugin_version
+        if [ $doPluginCover ]; then
           # do cover
           rm -rf $2/$extensions_plugin_jar
           cp $1/$preinstall_plugin_jar $2/
