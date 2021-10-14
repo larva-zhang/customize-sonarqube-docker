@@ -80,7 +80,7 @@ function copyPlugins() {
 set -eux
 preinstall_plugins_dir=${SONARQUBE_HOME}/preinstall/plugins
 extensions_plugins_dir=${SQ_EXTENSIONS_DIR}/plugins
-community_branch_plugin_version='${PLUGIN_COMMUNITY_BANCH_VERSION}'
+community_branch_plugin_version=${PLUGIN_COMMUNITY_BANCH_VERSION}
 
 echo "copy preinstall plugins from $preinstall_plugins_dir to $extensions_plugins_dir"
 mkdir -p $extensions_plugins_dir
