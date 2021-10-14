@@ -43,17 +43,16 @@ function isHigherVersion() {
 
 # copyPlugins $preinstall_plugins_dir $extensions_plugins_dir
 function copyPlugins() {
-    preinstall_plugin_jars=$(ls $1|grep '.*.jar')
-    for preinstall_plugin_jar in $preinstall_plugin_jars
+    for preinstall_plugin_jar in $(ls $1|grep '.*.jar')
     do
       covered_flag=0
-      preinstall_plugin_name=$(getPluginName $preinstall_plugin_jar)
+      preinstall_plugin_name="$(getPluginName $preinstall_plugin_jar)"
       for extensions_plugin_jar in $(ls $2|grep '.*.jar') ; do
-          extensions_plugin_name=$(getPluginName $extensions_plugin_jar)
+          extensions_plugin_name="$(getPluginName $extensions_plugin_jar)"
           if [ "$preinstall_plugin_name" -eq "$extensions_plugin_name" ]; then
               # exists the same name plugin, compare version, the higher version covered the lower version
-              preinstall_plugin_version=$(getPluginVersion $preinstall_plugin_jar)
-              extensions_plugin_version=$(getPluginVersion $extensions_plugin_jar)
+              preinstall_plugin_version="$(getPluginVersion $preinstall_plugin_jar)"
+              extensions_plugin_version="$(getPluginVersion $extensions_plugin_jar)"
               if [ "$(isHigherVersion $preinstall_plugin_version $extensions_plugin_version)" -eq 1 ]; then
                 # do cover
                 rm -rf $2/$extensions_plugin_jar
