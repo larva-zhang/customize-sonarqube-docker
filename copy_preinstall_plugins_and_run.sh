@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-# getPluginVersion sonar-auth-oidc-plugin-2.0.0 will set tmp_plugin_version="2.0.0"
+# getPluginVersion sonar-auth-oidc-plugin-2.0.0.jar will return "2.0.0"
 function getPluginVersion() {
-    tmp_plugin_version="$(echo $1|grep -Eo '[0-9]+(\.[0-9]+)*')"
+  return "$(basename "$(echo $1|grep -Eo '[0-9]+(\.[0-9]+)*.jar')" .jar)"
 }
 
-# getPluginName sonar-auth-oidc-plugin-2.0.0 will set tmp_plugin_name="sonar-auth-oidc-plugin"
+# getPluginName sonar-auth-oidc-plugin-2.0.0.jar will return "sonar-auth-oidc-plugin"
 function getPluginName() {
-  tmp_plugin_name="$(echo $1|grep -Eo '^[[:alpha:]]+(\-[[:alpha:]]+)*')"
+  return "$(basename $1 "$(echo $1|grep -Eo '[0-9]+(\.[0-9]+)*.jar')")"
 }
 
 # isHigherVersion 2.0.0 1.9.5 will return 1.
@@ -47,20 +47,13 @@ function copyPlugins() {
     for preinstall_plugin_jar in $preinstall_plugin_jars
     do
       covered_flag=0
-      preinstall_plugin_filename=$(basename $preinstall_plugin_jar .jar)
-      getPluginName $preinstall_plugin_filename
-      preinstall_plugin_name=$tmp_plugin_name
-
+      preinstall_plugin_name=$(getPluginName $preinstall_plugin_jar)
       for extensions_plugin_jar in $(ls $2|grep '.*.jar') ; do
-          extensions_plugin_filename=$(basename $extensions_plugin_jar .jar)
-          getPluginName $extensions_plugin_filename
-          extensions_plugin_name=$tmp_plugin_name
+          extensions_plugin_name=$(getPluginName $extensions_plugin_jar)
           if [ "$preinstall_plugin_name" -eq "$extensions_plugin_name" ]; then
               # exists the same name plugin, compare version, the higher version covered the lower version
-              getPluginVersion $preinstall_plugin_filename
-              preinstall_plugin_version=$tmp_plugin_version
-              getPluginVersion $extensions_plugin_name
-              extensions_plugin_version=$tmp_plugin_version
+              preinstall_plugin_version=$(getPluginVersion $preinstall_plugin_jar)
+              extensions_plugin_version=$(getPluginVersion $extensions_plugin_jar)
               if [ "$(isHigherVersion $preinstall_plugin_version $extensions_plugin_version)" -eq 1 ]; then
                 # do cover
                 rm -rf $2/$extensions_plugin_jar
