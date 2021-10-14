@@ -31,7 +31,7 @@ ARG PLUGIN_OPENID_VERSION=2.1.0
 ARG PLUGIN_OPENID_URL=https://github.com/vaulttec/sonar-auth-oidc/releases/download/v${PLUGIN_OPENID_VERSION}/sonar-auth-oidc-plugin-${PLUGIN_OPENID_VERSION}.jar
 
 # https://github.com/mc1arke/sonarqube-community-branch-plugin
-ARG PLUGIN_COMMUNITY_BANCH_VERSION=1.8.1
+ENV PLUGIN_COMMUNITY_BANCH_VERSION=1.8.1
 ARG PLUGIN_COMMUNITY_BANCH_URL=https://github.com/mc1arke/sonarqube-community-branch-plugin/releases/download/${PLUGIN_COMMUNITY_BANCH_VERSION}/sonarqube-community-branch-plugin-${PLUGIN_COMMUNITY_BANCH_VERSION}.jar
 
 # https://github.com/sbaudoin/sonar-yaml
