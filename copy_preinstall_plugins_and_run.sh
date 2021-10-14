@@ -40,7 +40,7 @@ function copyPlugins() {
       preinstall_plugin_name="$(basename $preinstall_plugin_jar "$(echo $preinstall_plugin_jar|grep -Eo '[0-9]+(\.[0-9]+)*.jar')")"
       for extensions_plugin_jar in $(ls $2|grep '.*.jar') ; do
           extensions_plugin_name="$(basename $extensions_plugin_jar "$(echo $extensions_plugin_jar|grep -Eo '[0-9]+(\.[0-9]+)*.jar')")"
-          if [ "$preinstall_plugin_name" -eq "$extensions_plugin_name" ]; then
+          if [ "$preinstall_plugin_name" == "$extensions_plugin_name" ]; then
               # exists the same name plugin, compare version, the higher version covered the lower version
               # sonar-auth-oidc-plugin-2.0.0.jar will return "2.0.0"
               preinstall_plugin_version="$(basename "$(echo $preinstall_plugin_jar|grep -Eo '[0-9]+(\.[0-9]+)*.jar')" .jar)"
