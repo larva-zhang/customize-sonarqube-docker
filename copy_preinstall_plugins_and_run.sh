@@ -1,15 +1,5 @@
 #!/usr/bin/env bash
 
-# getPluginVersion sonar-auth-oidc-plugin-2.0.0.jar will return "2.0.0"
-function getPluginVersion() {
-  return "$(basename "$(echo $1|grep -Eo '[0-9]+(\.[0-9]+)*.jar')" .jar)"
-}
-
-# getPluginName sonar-auth-oidc-plugin-2.0.0.jar will return "sonar-auth-oidc-plugin"
-function getPluginName() {
-  return "$(basename $1 "$(echo $1|grep -Eo '[0-9]+(\.[0-9]+)*.jar')")"
-}
-
 # isHigherVersion 2.0.0 1.9.5 will return 1.
 # isHigherVersion 2.0.0 1.9.6634.223 will return 1.
 # isHigherVersion 2 1.9.6634.223 will return 1.
@@ -46,13 +36,15 @@ function copyPlugins() {
     for preinstall_plugin_jar in $(ls $1|grep '.*.jar')
     do
       covered_flag=0
-      preinstall_plugin_name="$(getPluginName $preinstall_plugin_jar)"
+      # sonar-auth-oidc-plugin-2.0.0.jar will return "sonar-auth-oidc-plugin-"
+      preinstall_plugin_name="$(basename $preinstall_plugin_jar "$(echo $preinstall_plugin_jar|grep -Eo '[0-9]+(\.[0-9]+)*.jar')")"
       for extensions_plugin_jar in $(ls $2|grep '.*.jar') ; do
-          extensions_plugin_name="$(getPluginName $extensions_plugin_jar)"
+          extensions_plugin_name="$(basename $extensions_plugin_jar "$(echo $extensions_plugin_jar|grep -Eo '[0-9]+(\.[0-9]+)*.jar')")"
           if [ "$preinstall_plugin_name" -eq "$extensions_plugin_name" ]; then
               # exists the same name plugin, compare version, the higher version covered the lower version
-              preinstall_plugin_version="$(getPluginVersion $preinstall_plugin_jar)"
-              extensions_plugin_version="$(getPluginVersion $extensions_plugin_jar)"
+              # sonar-auth-oidc-plugin-2.0.0.jar will return "2.0.0"
+              preinstall_plugin_version="$(basename "$(echo $preinstall_plugin_jar|grep -Eo '[0-9]+(\.[0-9]+)*.jar')" .jar)"
+              extensions_plugin_version="$(basename "$(echo $extensions_plugin_jar|grep -Eo '[0-9]+(\.[0-9]+)*.jar')" .jar)"
               if [ "$(isHigherVersion $preinstall_plugin_version $extensions_plugin_version)" -eq 1 ]; then
                 # do cover
                 rm -rf $2/$extensions_plugin_jar
