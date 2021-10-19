@@ -27,7 +27,7 @@ ARG PLUGIN_MYBATIS_VERSION=1.0.6
 ARG PLUGIN_MYBATIS_URL=https://github.com/donhui/sonar-mybatis/releases/download/${PLUGIN_MYBATIS_VERSION}/sonar-mybatis-plugin-${PLUGIN_MYBATIS_VERSION}.jar
 
 # https://github.com/vaulttec/sonar-auth-oidc
-ARG PLUGIN_OPENID_VERSION=2.1.0
+ARG PLUGIN_OPENID_VERSION=2.1.1
 ARG PLUGIN_OPENID_URL=https://github.com/vaulttec/sonar-auth-oidc/releases/download/v${PLUGIN_OPENID_VERSION}/sonar-auth-oidc-plugin-${PLUGIN_OPENID_VERSION}.jar
 
 # https://github.com/mc1arke/sonarqube-community-branch-plugin
