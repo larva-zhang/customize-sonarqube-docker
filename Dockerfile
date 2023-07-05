@@ -1,5 +1,10 @@
 FROM sonarqube:9.9.1-community
 
+USER root
+RUN sed -i '$a\vm.max_map_count=262144' /etc/sysctl.conf \
+    && apt update \
+    && apt-get install -y aria2
+
 ARG PREINSTALL_PLUGINS_DIR=${SONARQUBE_HOME}/preinstall/plugins
 # plugin compatibility see https://docs.sonarqube.org/latest/instance-administration/plugin-version-matrix/
 
@@ -46,9 +51,7 @@ ARG PLUGIN_SHELL_CHECK_URL=https://github.com/sbaudoin/sonar-shellcheck/releases
 COPY --chown=sonarqube:sonarqube copy_preinstall_plugins_and_run.sh ${SONARQUBE_HOME}/bin/
 
 RUN set -eux \
-  && echo 'vm.max_map_count=262144' >> /etc/sysctl.conf \
   && chmod 777 ${SONARQUBE_HOME}/bin/copy_preinstall_plugins_and_run.sh \
-  && apk add aria2 \
   && mkdir -p $PREINSTALL_PLUGINS_DIR ${SQ_EXTENSIONS_DIR}/plugins \
   && aria2c -s 10 -x 10 -m 5 -d $PREINSTALL_PLUGINS_DIR ${PLUGIN_FINDBUGS_URL} \
   && aria2c -s 10 -x 10 -m 5 -d $PREINSTALL_PLUGINS_DIR ${PLUGIN_DEPENCY_CHECK_URL} \
@@ -59,7 +62,8 @@ RUN set -eux \
   && aria2c -s 10 -x 10 -m 5 -d $PREINSTALL_PLUGINS_DIR ${PLUGIN_OPENID_URL} \
   && aria2c -s 10 -x 10 -m 5 -d $PREINSTALL_PLUGINS_DIR ${PLUGIN_YAML_ANALYZER_URL} \
   && aria2c -s 10 -x 10 -m 5 -d $PREINSTALL_PLUGINS_DIR ${PLUGIN_SHELL_CHECK_URL} \
-  && aria2c -s 10 -x 10 -m 5 -d $PREINSTALL_PLUGINS_DIR ${PLUGIN_COMMUNITY_BANCH_URL}
+  && aria2c -s 10 -x 10 -m 5 -d $PREINSTALL_PLUGINS_DIR ${PLUGIN_COMMUNITY_BANCH_URL} \
+  && chown sonarqube:sonarqube $PREINSTALL_PLUGINS_DIR
 
 ENTRYPOINT ["bin/copy_preinstall_plugins_and_run.sh"]
 CMD ["bin/sonar.sh"]
