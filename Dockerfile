@@ -1,4 +1,4 @@
-FROM sonarqube:9.9-community
+FROM sonarqube:9.9.1-community
 
 ARG PREINSTALL_PLUGINS_DIR=${SONARQUBE_HOME}/preinstall/plugins
 # plugin compatibility see https://docs.sonarqube.org/latest/instance-administration/plugin-version-matrix/
