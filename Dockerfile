@@ -3,8 +3,7 @@ FROM sonarqube:8.9.9-community
 
 USER root
 RUN sed -i '$a\vm.max_map_count=262144' /etc/sysctl.conf \
-    && apt update \
-    && apt-get install -y aria2
+    && apk add aria2
 
 ARG PREINSTALL_PLUGINS_DIR=${SONARQUBE_HOME}/preinstall/plugins
 # plugin compatibility see https://docs.sonarqube.org/latest/instance-administration/plugin-version-matrix/
