@@ -1,3 +1,4 @@
+# based on official image: https://github.com/SonarSource/docker-sonarqube/blob/master/9/community/Dockerfile
 FROM sonarqube:9.9.1-community
 
 USER root
@@ -48,10 +49,11 @@ ARG PLUGIN_YAML_ANALYZER_URL=https://github.com/sbaudoin/sonar-yaml/releases/dow
 ARG PLUGIN_SHELL_CHECK_VERSION=2.5.0
 ARG PLUGIN_SHELL_CHECK_URL=https://github.com/sbaudoin/sonar-shellcheck/releases/download/v${PLUGIN_SHELL_CHECK_VERSION}/sonar-shellcheck-plugin-${PLUGIN_SHELL_CHECK_VERSION}.jar
 
-COPY --chown=sonarqube:sonarqube copy_preinstall_plugins_and_run.sh ${SONARQUBE_HOME}/bin/
+COPY --chown=sonarqube:sonarqube copy_preinstall_plugins.sh append_community_branch_plugin_javaagent_options.sh ${SONARQUBE_HOME}/bin/
 
 RUN set -eux \
-  && chmod 777 ${SONARQUBE_HOME}/bin/copy_preinstall_plugins_and_run.sh \
+  && chmod 777 ${SONARQUBE_HOME}/bin/copy_preinstall_plugins.sh \
+  && chmod 777 ${SONARQUBE_HOME}/bin/append_community_branch_plugin_javaagent_options.sh \
   && mkdir -p $PREINSTALL_PLUGINS_DIR ${SQ_EXTENSIONS_DIR}/plugins \
   && aria2c -s 10 -x 10 -m 5 -d $PREINSTALL_PLUGINS_DIR ${PLUGIN_FINDBUGS_URL} \
   && aria2c -s 10 -x 10 -m 5 -d $PREINSTALL_PLUGINS_DIR ${PLUGIN_DEPENCY_CHECK_URL} \
@@ -65,5 +67,5 @@ RUN set -eux \
   && aria2c -s 10 -x 10 -m 5 -d $PREINSTALL_PLUGINS_DIR ${PLUGIN_COMMUNITY_BANCH_URL} \
   && chown sonarqube:sonarqube $PREINSTALL_PLUGINS_DIR
 
-ENTRYPOINT ["bin/copy_preinstall_plugins_and_run.sh"]
-CMD ["bin/sonar.sh"]
+USER sonarqube
+ENTRYPOINT ["bin/copy_preinstall_plugins.sh", "bin/append_community_branch_plugin_javaagent_options.sh", "/opt/sonarqube/docker/entrypoint.sh"]
