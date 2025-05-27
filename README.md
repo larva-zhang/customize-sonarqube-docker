@@ -1,7 +1,7 @@
 # customize-sonarqube-docker
 
 Customize the official Sonarqube Dockerfile, the latest version based on official sonarqube:
-9.9.1-community image.
+9.9-community image.
 
 ## Attention for embedded Elasticsearch
 ### security-opt
