@@ -1,6 +1,6 @@
 # based on official image: https://github.com/SonarSource/docker-sonarqube/blob/master/9/community/Dockerfile
 # mirror based on https://github.com/DaoCloud/public-image-mirror
-FROM m.daocloud.io/docker.io/sonarqube:9.9-community
+FROM m.daocloud.io/docker.io/sonarqube:9.9.8-community
 
 USER root
 RUN sed -i '$a\vm.max_map_count=262144' /etc/sysctl.conf \
