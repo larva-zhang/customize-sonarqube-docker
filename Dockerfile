@@ -3,9 +3,7 @@
 FROM m.daocloud.io/docker.io/sonarqube:9.9.8-community
 
 USER root
-RUN sed -i '$a\vm.max_map_count=262144' /etc/sysctl.conf \
-    && apt update \
-    && apt-get install -y aria2
+RUN sed -i '$a\vm.max_map_count=262144' /etc/sysctl.conf
 
 ARG PREINSTALL_PLUGINS_DIR=${SONARQUBE_HOME}/preinstall/plugins
 # plugin compatibility see https://docs.sonarqube.org/latest/instance-administration/plugin-version-matrix/
@@ -63,18 +61,18 @@ RUN set -eux \
   && chmod 777 ${SONARQUBE_HOME}/bin/copy_preinstall_plugins.sh \
   && chmod 777 ${SONARQUBE_HOME}/bin/append_community_branch_plugin_javaagent_options.sh \
   && mkdir -p $PREINSTALL_PLUGINS_DIR ${SQ_EXTENSIONS_DIR}/plugins \
-  && aria2c -s 10 -x 10 -m 5 -d $PREINSTALL_PLUGINS_DIR ${PLUGIN_FINDBUGS_URL} \
-  && aria2c -s 10 -x 10 -m 5 -d $PREINSTALL_PLUGINS_DIR ${PLUGIN_DEPENCY_CHECK_URL} \
-  && aria2c -s 10 -x 10 -m 5 -d $PREINSTALL_PLUGINS_DIR ${PLUGIN_GROOVY_URL} \
-  && aria2c -s 10 -x 10 -m 5 -d $PREINSTALL_PLUGINS_DIR ${PLUGIN_CHINESE_PACK_URL} \
-  && aria2c -s 10 -x 10 -m 5 -d $PREINSTALL_PLUGINS_DIR ${PLUGIN_PMD_URL} \
-  && aria2c -s 10 -x 10 -m 5 -d $PREINSTALL_PLUGINS_DIR ${PLUGIN_MYBATIS_URL} \
-  && aria2c -s 10 -x 10 -m 5 -d $PREINSTALL_PLUGINS_DIR ${PLUGIN_OPENID_URL} \
-  && aria2c -s 10 -x 10 -m 5 -d $PREINSTALL_PLUGINS_DIR ${PLUGIN_YAML_ANALYZER_URL} \
-  && aria2c -s 10 -x 10 -m 5 -d $PREINSTALL_PLUGINS_DIR ${PLUGIN_SHELL_CHECK_URL} \
-  && aria2c -s 10 -x 10 -m 5 -d $PREINSTALL_PLUGINS_DIR ${PLUGIN_COMMUNITY_BANCH_URL} \
-  && aria2c -s 10 -x 10 -m 5 -d $PREINSTALL_PLUGINS_DIR ${PLUGIN_CXX_URL} \
-  && aria2c -s 10 -x 10 -m 5 -d $PREINSTALL_PLUGINS_DIR ${PLUGIN_SWIFT_URL} \
+  && wget -P $PREINSTALL_PLUGINS_DIR ${PLUGIN_FINDBUGS_URL} \
+  && wget -P $PREINSTALL_PLUGINS_DIR ${PLUGIN_DEPENCY_CHECK_URL} \
+  && wget -P $PREINSTALL_PLUGINS_DIR ${PLUGIN_GROOVY_URL} \
+  && wget -P $PREINSTALL_PLUGINS_DIR ${PLUGIN_CHINESE_PACK_URL} \
+  && wget -P $PREINSTALL_PLUGINS_DIR ${PLUGIN_PMD_URL} \
+  && wget -P $PREINSTALL_PLUGINS_DIR ${PLUGIN_MYBATIS_URL} \
+  && wget -P $PREINSTALL_PLUGINS_DIR ${PLUGIN_OPENID_URL} \
+  && wget -P $PREINSTALL_PLUGINS_DIR ${PLUGIN_YAML_ANALYZER_URL} \
+  && wget -P $PREINSTALL_PLUGINS_DIR ${PLUGIN_SHELL_CHECK_URL} \
+  && wget -P $PREINSTALL_PLUGINS_DIR ${PLUGIN_COMMUNITY_BANCH_URL} \
+  && wget -P $PREINSTALL_PLUGINS_DIR ${PLUGIN_CXX_URL} \
+  && wget -P $PREINSTALL_PLUGINS_DIR ${PLUGIN_SWIFT_URL} \
   && chown sonarqube:sonarqube $PREINSTALL_PLUGINS_DIR
 
 USER sonarqube
