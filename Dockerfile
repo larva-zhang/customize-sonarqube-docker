@@ -13,7 +13,7 @@ ARG PREINSTALL_PLUGINS_DIR=${SONARQUBE_HOME}/preinstall/plugins
 # insert files.m.daocloud.io prefix before github.com domain for speed up
 # https://github.com/spotbugs/sonar-findbugs
 ARG PLUGIN_FINDBUGS_VERSION=4.5.1
-ARG PLUGIN_FINDBUGS_URL=https://files.m.daocloud.io/github.com/spotbugs/sonar-findbugs/releases/download/${PLUGIN_FINDBUGS_VERSION}/sonar-findbugs-plugin-${PLUGIN_FINDBUGS_VERSION}.jar
+ARG PLUGIN_FINDBUGS_URL=https://files.m.daocloud.io/github.com/spotbugs/sonar-findbugs/releases/download/${PLUGIN_FINDBUGS_VERSION}/sonar-findbugs-plugin.jar
 
 # https://github.com/dependency-check/dependency-check-sonar-plugin
 ARG PLUGIN_DEPENCY_CHECK_VERSION=4.0.1
